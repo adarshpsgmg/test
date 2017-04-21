@@ -1,12 +1,41 @@
 ﻿<!DOCTYPE html>
-<html ng-app="myModule" ng-controller="myController">
+<html ng-app="myModule">
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
         <script src="Scripts/Script.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="Style.css" rel="stylesheet" />
     </head>
-    <body>
-        <div>
-            {{ message }}
-        </div>
+    <body ng-controller="myController">
+        <input type="text" placeholder="Search Name and City" ng-model="searchText" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th ng-click="(sortData('name'))">
+                        Name <div ng-class="getSortClass('name')"></div>
+                    </th>
+                    <th ng-click="(sortData('likes'))">
+                        Likes <div ng-class="getSortClass('likes')"></div>
+                    </th>
+                    <th ng-click="(sortData('price'))">
+                        Price <div ng-class="getSortClass('price')"></div>
+                    </th>
+                    <th>DOB</th>
+                    <th>Like/Dislike</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="technology in technologies | filter:searchText:exactMatch">
+                    <td>{{ technology.name | uppercase }}</td>
+                    <td>{{ technology.likes }}</td>
+                    <td>{{ technology.price | currency:'₹':1 }}</td>
+                    <td>{{ technology.dateBirth | date:"dd/MM/yyyy" }}</td>
+                    <td>
+                        <input type="button" value="Like" ng-click= "like(technology)" />
+                        <input type="button" value="Dislike" ng-click="dislike(technology)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>
